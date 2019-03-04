@@ -1,94 +1,92 @@
 searchTerms = ["christmas", "4th of July", "halloween"];
 
-renderButtons();
+var holiday;
 
-$("#searchAdd").click(function() {
-    event.preventDefault();
-    createButton();
-})
+$(document).ready(function(){
 
-function createButton() {
-
-    var newHoliday = $("#searchTerm").val();
-    
-    searchTerms.push(newHoliday);
-    console.log("searchTerms: " + searchTerms);
-
-    $("#button-box").empty();
     renderButtons();
-}
 
-function renderButtons() {
 
-    for(i = 0; i < searchTerms.length; i++) {
-        var holidayButton = $("<button>");
+    $("#searchAdd").click(function() {
+        event.preventDefault();
+        createButton();
+        $("#searchTerm").text("");  //This should empty the textbox........
+    });
 
-        holidayButton.addClass("btn btn-success search-term");
-        holidayButton.attr({type: "button", id: searchTerms[i]})
-        holidayButton.text(searchTerms[i]);
+    $(".search-term").click(function() {
 
-        console.log(holidayButton);
+        console.log("I clicked this button.");
+        holiday = $(this).attr("id");
+        console.log("holiday: " + holiday);
+        addGifs();
 
-        $("#button-box").append(holidayButton);
+        });
+
+
+    function createButton() {
+
+        var newHoliday = $("#searchTerm").val();
+        
+        searchTerms.push(newHoliday);
+        console.log("searchTerms: " + searchTerms);
+
+        $("#button-box").empty();
+        renderButtons();
     }
-}
 
 
 
+    function renderButtons() {
 
-// function addGifs() {
+        for(i = 0; i < searchTerms.length; i++) {
+            var holidayButton = $("<button>");
+
+            holidayButton.addClass("btn btn-success search-term");
+            holidayButton.attr({type: "button", id: searchTerms[i]});
+            holidayButton.text(searchTerms[i]);
+
+            console.log(holidayButton);
+
+            $("#button-box").append(holidayButton);
+        }
+    }
 
 
+    
 
 
-// $("button").on("click", function() {
+    function addGifs() {
 
-//     var searchQuery = 
+        $("#gif-box").empty();
 
-//     var apiKey = "aK8yoLqnADi177YWasuqrRiJrvlWbJfI";
+        var apiKey = "aK8yoLqnADi177YWasuqrRiJrvlWbJfI";
 
-//     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + person + "&api_key=" + apiKey + "&limit=10";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + holiday + "&api_key=" + apiKey + "&limit=10";
 
-//     // Performing our AJAX GET request
-//     $.ajax({
-//       url: queryURL,
-//       method: "GET"
-//     })
-//       // After the data comes back from the API
-//       .then(function(response) {
-//         // Storing an array of results in the results variable
-//         var results = response.data;
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        })
 
-//         // Looping over every result item
-//         for (var i = 0; i < results.length; i++) {
+        .then(function(response) {
 
-//           // Only taking action if the photo has an appropriate rating
-//           if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
-//             // Creating a div for the gif
-//             var gifDiv = $("<div>");
+            var results = response.data;
+            console.log(results);
 
-//             // Storing the result item's rating
-//             var rating = results[i].rating;
+            for (var i = 0; i < results.length; i++) {
 
-//             // Creating a paragraph tag with the result item's rating
-//             var p = $("<p>").text("Rating: " + rating);
+                var gifDiv = $("<div>");
+                var rating = results[i].rating;
+                var p = $("<p>").text("Rating: " + rating);
+                var holidayGIF = $("<img>");
+        
+                holidayGIF.attr("src", results[i].images.fixed_height.url);
 
-//             // Creating an image tag
-//             var personImage = $("<img>");
+                gifDiv.append(holidayGIF);
+                gifDiv.append(p);
 
-//             // Giving the image tag an src attribute of a proprty pulled off the
-//             // result item
-//             personImage.attr("src", results[i].images.fixed_height.url);
-
-//             // Appending the paragraph and personImage we created to the "gifDiv" div we created
-//             gifDiv.append(p);
-//             gifDiv.append(personImage);
-
-//             // Prepending the gifDiv to the "#gifs-appear-here" div in the HTML
-//             $("#gifs-appear-here").prepend(gifDiv);
-//           }
-//         }
-//       });
-//   });
-
-// }
+                $("#gif-box").append(gifDiv);
+            };
+        });
+    };
+});
