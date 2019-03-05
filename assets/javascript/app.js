@@ -22,6 +22,8 @@ $(document).ready(function(){
 
         });
 
+   
+
 
     function createButton() {
 
@@ -79,8 +81,12 @@ $(document).ready(function(){
                 var rating = results[i].rating;
                 var p = $("<p>").text("Rating: " + rating);
                 var holidayGIF = $("<img>");
-        
+
+                holidayGIF.addClass("gif");
                 holidayGIF.attr("src", results[i].images.fixed_height.url);
+                holidayGIF.attr("data-still", results[i].images.fixed_height_still.url);
+                holidayGIF.attr("data-animate", results[i].images.fixed_height.url);
+                holidayGIF.attr("data-state", "animate");
 
                 gifDiv.append(holidayGIF);
                 gifDiv.append(p);
@@ -89,4 +95,19 @@ $(document).ready(function(){
             };
         });
     };
+
+    $(".gif").click(function() {
+
+        console.log("I clicked a GIF.")
+
+        var state = $(this).attr("data-state");
+        
+        if (state === "still") {
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+        } else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-state", "still");
+        }
+    });
 });
