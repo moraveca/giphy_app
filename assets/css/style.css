@@ -1,0 +1,21 @@
+button {
+    margin: 20px;
+}
+
+#form-box {
+    margin-left: 40%;
+    width: 50%;
+}
+
+#searchAdd {
+    float: right;
+}
+
+.gif-display {
+    float: left;
+    margin: 15px;
+}
+
+#moreGifs {
+    width: auto;    
+}

@@ -1,6 +1,10 @@
-searchTerms = ["christmas", "4th of July", "halloween"];
+searchTerms = ["Christmas", "4th of July", "Halloween"];
 
 var holiday;
+
+var offsetNumber = 0;
+
+var apiKey = "aK8yoLqnADi177YWasuqrRiJrvlWbJfI";
 
 $(document).ready(function(){
 
@@ -16,7 +20,7 @@ $(document).ready(function(){
 
     function clickingButton() {
 
-        console.log("I clicked this button.");
+        $("#moreGifs").remove();
         holiday = $(this).attr("id");
         console.log("holiday: " + holiday);
         addGifs();
@@ -25,7 +29,7 @@ $(document).ready(function(){
 
     $(document).on("click", ".search-term", clickingButton);
     $(document).on("click", ".gif", clickGif);
-   
+    $(document).on("click", "#moreGifs", addMoreGifs);
 
 
     function createButton() {
@@ -47,7 +51,10 @@ $(document).ready(function(){
             var holidayButton = $("<button>");
 
             holidayButton.addClass("btn btn-success search-term");
-            holidayButton.attr({type: "button", id: searchTerms[i]});
+            holidayButton.attr({
+                type: "button",
+                id: searchTerms[i]
+            });
             holidayButton.text(searchTerms[i]);
 
             console.log(holidayButton);
@@ -57,16 +64,23 @@ $(document).ready(function(){
     }
 
 
+    function moreButton() {
     
+        var addMore = $("<button>");
+
+        addMore.addClass("btn btn-outline-warning");
+        addMore.attr({
+            type: "button",
+            id: "moreGifs"
+        });
+        addMore.text("More GIFs? Yes, please!");
+        $("#form-box").append(addMore);
+    }
 
 
-    function addGifs() {
+    function createGifs() {
 
-        $("#gif-box").empty();
-
-        var apiKey = "aK8yoLqnADi177YWasuqrRiJrvlWbJfI";
-
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + holiday + "&api_key=" + apiKey + "&limit=10";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + holiday + "&api_key=" + apiKey + "&limit=10&offset=" + offsetNumber;
 
         $.ajax({
             url: queryURL,
@@ -76,6 +90,7 @@ $(document).ready(function(){
         .then(function(response) {
 
             var results = response.data;
+            console.log(queryURL);
             console.log(results);
 
             for (var i = 0; i < results.length; i++) {
@@ -84,6 +99,8 @@ $(document).ready(function(){
                 var rating = results[i].rating;
                 var p = $("<p>").text("Rating: " + rating);
                 var holidayGIF = $("<img>");
+
+                gifDiv.addClass("gif-display");
 
                 holidayGIF.addClass("gif");
                 holidayGIF.attr("src", results[i].images.fixed_height.url);
@@ -97,6 +114,37 @@ $(document).ready(function(){
                 $("#gif-box").append(gifDiv);
             };
         });
+    }
+
+
+
+    function addMoreGifs() {
+    
+            createGifs();
+
+            offsetNumber = offsetNumber+10;
+            console.log("offsetNumber: " + offsetNumber);
+            $("#moreGifs").remove();
+            moreButton();
+    };
+
+
+    function addGifs() {
+
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + holiday + "&api_key=" + apiKey + "&limit=10&offset=" + offsetNumber;
+
+        $("#gif-box").empty();
+
+        
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        })
+
+        createGifs();
+        moreButton();
+        offsetNumber = 11;
+
     };
 
     function clickGif() {
