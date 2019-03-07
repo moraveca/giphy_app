@@ -13,15 +13,18 @@ $(document).ready(function(){
         $("#searchTerm").text("");  //This should empty the textbox........
     });
 
-    $(".search-term").click(function() {
+
+    function clickingButton() {
 
         console.log("I clicked this button.");
         holiday = $(this).attr("id");
         console.log("holiday: " + holiday);
         addGifs();
 
-        });
+    }
 
+    $(document).on("click", ".search-term", clickingButton);
+    $(document).on("click", ".gif", clickGif);
    
 
 
@@ -96,12 +99,11 @@ $(document).ready(function(){
         });
     };
 
-    $(".gif").click(function() {
-
+    function clickGif() {
         console.log("I clicked a GIF.")
 
         var state = $(this).attr("data-state");
-        
+
         if (state === "still") {
             $(this).attr("src", $(this).attr("data-animate"));
             $(this).attr("data-state", "animate");
@@ -109,5 +111,5 @@ $(document).ready(function(){
             $(this).attr("src", $(this).attr("data-still"));
             $(this).attr("data-state", "still");
         }
-    });
+    };
 });
