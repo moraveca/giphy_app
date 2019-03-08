@@ -30,6 +30,7 @@ $(document).ready(function(){
     $(document).on("click", ".search-term", clickingButton);
     $(document).on("click", ".gif", clickGif);
     $(document).on("click", "#moreGifs", addMoreGifs);
+   
 
 
     function createButton() {
@@ -50,7 +51,7 @@ $(document).ready(function(){
         for(i = 0; i < searchTerms.length; i++) {
             var holidayButton = $("<button>");
 
-            holidayButton.addClass("btn btn-success search-term");
+            holidayButton.addClass("btn btn-secondary search-term");
             holidayButton.attr({
                 type: "button",
                 id: searchTerms[i]
@@ -68,7 +69,7 @@ $(document).ready(function(){
     
         var addMore = $("<button>");
 
-        addMore.addClass("btn btn-outline-warning");
+        addMore.addClass("btn btn-lg");
         addMore.attr({
             type: "button",
             id: "moreGifs"

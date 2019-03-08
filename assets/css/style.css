@@ -19,3 +19,17 @@ button {
 #moreGifs {
     width: auto;    
 }
+
+#moreGifs {
+    background-color: #522B47;
+    color: #FBF5F3;
+}
+
+.search-term {
+    background-color: #8DAA9D;
+}
+
+#searchAdd {
+    background-color: #7B0828;
+    color: #FBF5F3;
+}
