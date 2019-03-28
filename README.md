@@ -1,1 +1,1 @@
-# giphy_app
+This app implements dynamic button creation as well as the use of the giphy API using the AJAX method. The website can be found at: https://moraveca.github.io/giphy_app/

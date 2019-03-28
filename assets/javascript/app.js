@@ -6,12 +6,12 @@ var offsetNumber = 0;
 
 var apiKey = "aK8yoLqnADi177YWasuqrRiJrvlWbJfI";
 
-$(document).ready(function(){
+$(document).ready(function () {
 
     renderButtons();
 
 
-    $("#searchAdd").click(function() {
+    $("#searchAdd").click(function () {
         event.preventDefault();
         createButton();
         $("#searchTerm").text("");  //This should empty the textbox........
@@ -30,13 +30,13 @@ $(document).ready(function(){
     $(document).on("click", ".search-term", clickingButton);
     $(document).on("click", ".gif", clickGif);
     $(document).on("click", "#moreGifs", addMoreGifs);
-   
+
 
 
     function createButton() {
 
         var newHoliday = $("#searchTerm").val();
-        
+
         searchTerms.push(newHoliday);
         console.log("searchTerms: " + searchTerms);
 
@@ -48,7 +48,7 @@ $(document).ready(function(){
 
     function renderButtons() {
 
-        for(i = 0; i < searchTerms.length; i++) {
+        for (i = 0; i < searchTerms.length; i++) {
             var holidayButton = $("<button>");
 
             holidayButton.addClass("btn btn-secondary search-term");
@@ -66,7 +66,7 @@ $(document).ready(function(){
 
 
     function moreButton() {
-    
+
         var addMore = $("<button>");
 
         addMore.addClass("btn btn-lg");
@@ -88,45 +88,45 @@ $(document).ready(function(){
             method: "GET"
         })
 
-        .then(function(response) {
+            .then(function (response) {
 
-            var results = response.data;
-            console.log(queryURL);
-            console.log(results);
+                var results = response.data;
+                console.log(queryURL);
+                console.log(results);
 
-            for (var i = 0; i < results.length; i++) {
+                for (var i = 0; i < results.length; i++) {
 
-                var gifDiv = $("<div>");
-                var rating = results[i].rating;
-                var p = $("<p>").text("Rating: " + rating);
-                var holidayGIF = $("<img>");
+                    var gifDiv = $("<div>");
+                    var rating = results[i].rating;
+                    var p = $("<p>").text("Rating: " + rating);
+                    var holidayGIF = $("<img>");
 
-                gifDiv.addClass("gif-display");
+                    gifDiv.addClass("gif-display");
 
-                holidayGIF.addClass("gif");
-                holidayGIF.attr("src", results[i].images.fixed_height.url);
-                holidayGIF.attr("data-still", results[i].images.fixed_height_still.url);
-                holidayGIF.attr("data-animate", results[i].images.fixed_height.url);
-                holidayGIF.attr("data-state", "animate");
+                    holidayGIF.addClass("gif");
+                    holidayGIF.attr("src", results[i].images.fixed_height.url);
+                    holidayGIF.attr("data-still", results[i].images.fixed_height_still.url);
+                    holidayGIF.attr("data-animate", results[i].images.fixed_height.url);
+                    holidayGIF.attr("data-state", "animate");
 
-                gifDiv.append(holidayGIF);
-                gifDiv.append(p);
+                    gifDiv.append(holidayGIF);
+                    gifDiv.append(p);
 
-                $("#gif-box").append(gifDiv);
-            };
-        });
+                    $("#gif-box").append(gifDiv);
+                };
+            });
     }
 
 
 
     function addMoreGifs() {
-    
-            createGifs();
 
-            offsetNumber = offsetNumber+10;
-            console.log("offsetNumber: " + offsetNumber);
-            $("#moreGifs").remove();
-            moreButton();
+        createGifs();
+
+        offsetNumber = offsetNumber + 10;
+        console.log("offsetNumber: " + offsetNumber);
+        $("#moreGifs").remove();
+        moreButton();
     };
 
 
@@ -136,7 +136,7 @@ $(document).ready(function(){
 
         $("#gif-box").empty();
 
-        
+
         $.ajax({
             url: queryURL,
             method: "GET"
